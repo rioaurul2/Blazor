@@ -1,19 +1,32 @@
 ﻿@page "/authors"
-@inject NavigationManager NavigationManager
+@inject IAuthorService authorService;
+@using BlazorAppLearning.Data;
 
 <h3>Authors</h3>
 <hr />
 
-<a href="/authors/authorDetails/11">J.K.Rowling</a>
-<br />
+@foreach (var author in @authors)
+{
+    <div class="col-12 row">
+        <div class=" col-2">
+            <NavLink style="text-decoration:none" href="@string.Format("/authors/authorDetails/{0}",author.Id)">
+                @author.Id
+            </NavLink>
+        </div>
+        <div class="col-2">@author.FullName</div>
+    </div>
+}
 
-<button class="btn btn-primary" @onclick="Navigate">J.K.Rowling</button>
+<hr />
+<div class="col-12 row">Generation date: @authorService.GetCreateDate()</div>
+<div class="col-12 row">Version: @authorService.GetVersion()</div>
 
 @code {
+    public List<Author> authors = new();
+    //public AuthorService authorService = new();
 
-    private void Navigate()
+    protected override void OnInitialized()
     {
-        NavigationManager.NavigateTo("/authors/authorDetails/12");
+        authors = authorService.GetAuthors();
     }
-
 }

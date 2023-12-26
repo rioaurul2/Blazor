@@ -9,6 +9,15 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 
+//Initializarea are loc la schimbarea componentei, de fiecare data
+//builder.Services.AddTransient<IAuthorService, AuthorService>();
+
+//Initializarea are loc o singura data
+builder.Services.AddSingleton<IAuthorService, AuthorService_v2>();
+
+//Initializarea are loc la reimprospatarea paginii, de fiecare data
+//builder.Services.AddScoped<IAuthorService, AuthorService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

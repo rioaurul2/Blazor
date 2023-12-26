@@ -1,15 +1,38 @@
-﻿@page "/authors/authorDetails{authorId:int}"
-@page "/authors/authorDetails"
-@page "/author"
+﻿@page "/authors/authorDetails/{Id:int}"
+@inject IAuthorService authorService;
+@using BlazorAppLearning.Data;
 
 <h3>AuthorDetails</h3>
 <hr />
 
-<p>@AuthorId/J.K. Rowling/ Harry Potter</p>
+@if (authorDetails != null)
+{
+    <div class="col-12 row">
+        <h5 class="col-12 row" style="font-weight:bold">@authorDetails.FullName</h5>
+        <h6 class="col-12 row">Ph: @authorDetails.Phone</h6>
+        <h6 class="col-12 row">City: @authorDetails.City</h6>
+    </div>
+    <hr />
+
+    <div class="col-12 row">Generation date: @authorService.GetCreateDate()</div>
+    <div class="col-12 row">Version: @authorService.GetVersion()</div>
+}
+else
+{
+    <p>Loading author details...</p>
+}
 
 @code {
 
     [Parameter]
-    public int AuthorId { get; set; }
+    public int Id { get; set; }
 
+    public Author? authorDetails { get; set; }
+
+    //public AuthorService authorService = new();
+
+    protected override void OnInitialized()
+    {
+        authorDetails = authorService.GetAuthorById(Id);
+    }
 }
