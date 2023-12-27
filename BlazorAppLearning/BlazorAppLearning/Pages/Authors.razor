@@ -2,10 +2,117 @@
 @inject IAuthorService authorService;
 @using BlazorAppLearning.Data;
 
-<h3>Authors</h3>
-<hr />
+<div class="col-12">
+    <h3>Enter Author Information</h3>
+    <hr />
 
-@foreach (var author in @authors)
+    <EditForm Model="@author" OnValidSubmit="@AddAuthor">
+
+        <DataAnnotationsValidator />
+
+        &nbsp;<ValidationMessage For="@(() => author.FullName)"/>
+        <div class="col-12 row">
+            <label class="col-2 font-weight-bold">Full Name:</label>
+            <InputText class="form-control col-3" @bind-Value="author.FullName" placeholder="Full Name"></InputText>
+        </div>
+        <br />
+
+        &nbsp;<ValidationMessage For="@(() => author.City)" />
+        <div class="col-12 row">
+            <label class="col-2 font-weight-bold">City:</label>
+            <InputText class="form-control col-3" @bind-Value="author.City" placeholder="City"></InputText>
+        </div>
+        <br />
+
+        &nbsp;<ValidationMessage For="@(() => author.Email)" />
+        <div class="col-12 row">
+            <label class="col-2 font-weight-bold">Email:</label>
+            <InputText class="form-control col-3" @bind-Value="author.Email" placeholder="Email"></InputText>
+        </div>
+        <br />
+
+        &nbsp;<ValidationMessage For="@(() => author.Salary)" />
+        <div class="col-12 row">
+            <label class="col-2 font-weight-bold">Salary:</label>
+            <InputNumber class="form-control col-3" @bind-Value="author.Salary" placeholder="Salary"></InputNumber>
+        </div>
+        <br />
+
+        <div class="col-12 row">
+            <span class="col-2"></span>
+            <input type="submit" class="form-control col-1 btn btn-primary" value="Save" />
+            <span>&nbsp;</span>
+            <input type="submit" class="form-control col-1 btn btn-primary" value="Clear" />
+        </div>
+
+    </EditForm>
+</div>
+
+<div class="col-10">
+    <h3>Authors</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <td>AuthorId</td>
+                <td>Full Name</td>
+                <td> City</td>
+                <td> Email</td>
+                <td> Salary</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var author in @authors)
+            {
+                <tr>
+                    <td>
+                        <NavLink style="text-decoration:none" href="@string.Format("/authors/authorDetails/{0}",author.Id)">
+                            @author.Id
+                        </NavLink>
+                    </td>
+                    <td>@author.FullName</td>
+                    <td>@author.City</td>
+                    <td>@author.Email</td>
+                    <td>$@author.Salary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@* <h3>Authors</h3>
+
+<table>
+    <thead>
+        <tr style="padding:5px 10px">
+            <td class="px-2 py-4 col-2">AuthorId</td>
+            <td class="px-2 py-4 ">Full Name</td>
+            <td class="px-2 py-4 "> City</td>
+            <td class="px-2 py-4 "> Email</td>
+            <td class="px-2 py-4 "> Salary</td>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var author in @authors)
+        {
+            <tr>
+                <td class=" col-2">
+                    <NavLink style="text-decoration:none" href="@string.Format("/authors/authorDetails/{0}",author.Id)">
+                        @author.Id
+                    </NavLink>
+                </td>
+                <td class="px-2 py-4 ">@author.FullName</td>
+                <td class="px-2 py-4 ">@author.City</td>
+                <td class="px-2 py-4 ">@author.Email</td>
+                <td class="px-2 py-4 ">@author.Salary</td>
+            </tr>
+        }
+    </tbody>
+</table>
+ *@
+@* @foreach (var author in @authors)
 {
     <div class="col-12 row">
         <div class=" col-2">
@@ -15,18 +122,27 @@
         </div>
         <div class="col-2">@author.FullName</div>
     </div>
-}
-
-<hr />
+} *@
 <div class="col-12 row">Generation date: @authorService.GetCreateDate()</div>
 <div class="col-12 row">Version: @authorService.GetVersion()</div>
 
 @code {
+    public Author? author { get; set; }
+
     public List<Author> authors = new();
+
     //public AuthorService authorService = new();
 
     protected override void OnInitialized()
     {
+        author = new Author();
         authors = authorService.GetAuthors();
+    }
+
+    private void AddAuthor()
+    {
+        authorService.AddAuthor(author);
+
+        author = new Author();
     }
 }

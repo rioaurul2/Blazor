@@ -6,6 +6,8 @@
 
         public Author? GetAuthorById(int authorId);
 
+        public void AddAuthor(Author? author);
+
         public DateTime? GetCreateDate();
 
         public string GetVersion();

@@ -13,7 +13,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 //builder.Services.AddTransient<IAuthorService, AuthorService>();
 
 //Initializarea are loc o singura data
-builder.Services.AddSingleton<IAuthorService, AuthorService_v2>();
+builder.Services.AddSingleton<IAuthorService, AuthorService>();
 
 //Initializarea are loc la reimprospatarea paginii, de fiecare data
 //builder.Services.AddScoped<IAuthorService, AuthorService>();
