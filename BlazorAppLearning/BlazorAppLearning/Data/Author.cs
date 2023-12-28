@@ -5,7 +5,6 @@ namespace BlazorAppLearning.Data
     public class Author
     {
         public int Id { get; set; }
-        [Required (ErrorMessage ="This is required")]
         public string? FullName { get; set; }
 
         public string? Phone { get; set; }

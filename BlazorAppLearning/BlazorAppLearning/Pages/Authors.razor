@@ -1,10 +1,14 @@
 ﻿@page "/authors"
 @inject IAuthorService authorService;
+@inject IJSRuntime JSRuntime;
+
 @using BlazorAppLearning.Data;
 
 <div class="col-12">
     <h3>Enter Author Information</h3>
     <hr />
+
+    <div id="divServerValidations" class="col-10 alert alert-info"></div>
 
     <EditForm Model="@author" OnValidSubmit="@AddAuthor">
 
@@ -13,7 +17,7 @@
         &nbsp;<ValidationMessage For="@(() => author.FullName)"/>
         <div class="col-12 row">
             <label class="col-2 font-weight-bold">Full Name:</label>
-            <InputText class="form-control col-3" @bind-Value="author.FullName" placeholder="Full Name"></InputText>
+            <input @ref="fullNameInput" class="form-control col-3" @bind="author.FullName" placeholder="Full Name"></input>
         </div>
         <br />
 
@@ -131,6 +135,7 @@
 
     public List<Author> authors = new();
 
+    ElementReference fullNameInput;
     //public AuthorService authorService = new();
 
     protected override void OnInitialized()
@@ -139,10 +144,14 @@
         authors = authorService.GetAuthors();
     }
 
-    private void AddAuthor()
+    private async Task AddAuthor()
     {
         authorService.AddAuthor(author);
 
+        await JSRuntime.InvokeVoidAsync("saveMessage", author.FullName);
+
         author = new Author();
+
+        await JSRuntime.InvokeVoidAsync("setFocusOnElement", fullNameInput);
     }
 }
