@@ -1,22 +1,34 @@
 ﻿using EmployeeManagementModels;
-using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 
-namespace EmployeeManagement.Web.Pages
+namespace EmployeeManagement.Api.Models
 {
-    public class EmployeeListBase : ComponentBase
+    public class AppDbContext:DbContext
     {
-        public IEnumerable<Employee> Employees { get; set; }
-
-        protected override async Task OnInitializedAsync()
+        public AppDbContext(DbContextOptions<AppDbContext> options) 
+        :   base(options) 
         {
-            await Task.Run(LoadEmployees);
         }
 
-        private void LoadEmployees()
-        {
-            System.Threading.Thread.Sleep(5000);
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Department> Departments { get; set; }
 
-            Employee e1 = new Employee
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            //Seed Departments Table
+            modelBuilder.Entity<Department>().HasData(
+                new Department { DepartmentId = 1, DepartmentName = "IT" });
+            modelBuilder.Entity<Department>().HasData(
+                new Department { DepartmentId = 2, DepartmentName = "HR" });
+            modelBuilder.Entity<Department>().HasData(
+                new Department { DepartmentId = 3, DepartmentName = "Payroll" });
+            modelBuilder.Entity<Department>().HasData(
+                new Department { DepartmentId = 4, DepartmentName = "Admin" });
+
+            // Seed Employee Table
+            modelBuilder.Entity<Employee>().HasData(new Employee
             {
                 EmployeeId = 1,
                 FirstName = "John",
@@ -26,9 +38,9 @@ namespace EmployeeManagement.Web.Pages
                 Gender = Gender.Male,
                 DepartmentId = 1,
                 PhotoPath = "images/john.png"
-            };
+            });
 
-            Employee e2 = new Employee
+            modelBuilder.Entity<Employee>().HasData(new Employee
             {
                 EmployeeId = 2,
                 FirstName = "Sam",
@@ -38,9 +50,9 @@ namespace EmployeeManagement.Web.Pages
                 Gender = Gender.Male,
                 DepartmentId = 2,
                 PhotoPath = "images/sam.jpg"
-            };
+            });
 
-            Employee e3 = new Employee
+            modelBuilder.Entity<Employee>().HasData(new Employee
             {
                 EmployeeId = 3,
                 FirstName = "Mary",
@@ -50,11 +62,11 @@ namespace EmployeeManagement.Web.Pages
                 Gender = Gender.Female,
                 DepartmentId = 1,
                 PhotoPath = "images/mary.png"
-            };
+            });
 
-            Employee e4 = new Employee
+            modelBuilder.Entity<Employee>().HasData(new Employee
             {
-                EmployeeId = 3,
+                EmployeeId = 4,
                 FirstName = "Sara",
                 LastName = "Longway",
                 Email = "sara@pragimtech.com",
@@ -62,9 +74,7 @@ namespace EmployeeManagement.Web.Pages
                 Gender = Gender.Female,
                 DepartmentId = 3,
                 PhotoPath = "images/sara.png"
-            };
-
-            Employees = new List<Employee> { e1, e2, e3, e4 };
+            });
         }
     }
 }
