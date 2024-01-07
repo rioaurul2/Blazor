@@ -37,9 +37,31 @@ namespace EmployeeManagement.Api.Models
           return await _appDbContext.Employees.FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
         }
 
+        public async Task<Employee?> GetEmployeeByEmail(string employeeEmail)
+        {
+            return await _appDbContext.Employees.FirstOrDefaultAsync(e => e.Email == employeeEmail);
+        }
+
         public async Task<IEnumerable<Employee>> GetEmployees()
         {
             return await _appDbContext.Employees.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Employee>> Search(string name, Gender? gender)
+        {
+            IQueryable<Employee> query = _appDbContext.Employees;
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(e => e.FirstName.Contains(name) || e.LastName.Contains(name));
+            }
+
+            if(gender != null)
+            {
+                query = query.Where(e => e.Gender == gender);
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<Employee?> UpdateEmployee(Employee employee)
