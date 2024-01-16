@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Custom.Components\Custom.Components.csproj" />
     <ProjectReference Include="..\EmployeeManagementModels\EmployeeManagementModels.csproj" />
   </ItemGroup>
 
