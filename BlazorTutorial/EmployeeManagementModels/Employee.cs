@@ -1,5 +1,6 @@
 ﻿using EmployeeManagementModels.CustomValidators;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EmployeeManagementModels
 {
@@ -12,7 +13,7 @@ namespace EmployeeManagementModels
         [Required]
         public string LastName { get; set; }
         [EmailAddress]
-        [EmailDomainValidator(AllowDomain="domain.ro")]
+        [EmailDomainValidator(AllowDomain= "pragimtech.com")]
         public string Email { get; set; }
         public DateTime DateOfBrith { get; set; }
         public Gender Gender { get; set; }

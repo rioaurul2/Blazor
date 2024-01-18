@@ -95,27 +95,27 @@ namespace EmployeeManagement.Api.Controllers
 
                 return CreatedAtAction(nameof(GetEmployee), new { id = createdEmployee.EmployeeId}, createdEmployee);
             }
-            catch
+            catch(Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error adding data to database");
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<ActionResult<Employee>> UpdateEmployee(int id, Employee employee)
+        [HttpPut]
+        public async Task<ActionResult<Employee>> UpdateEmployee(Employee employee)
         {
             try
             {
-                if(employee.EmployeeId != id)
+                if(employee.EmployeeId != employee.EmployeeId)
                 {
                     return BadRequest("Employee Id mismatch");
                 }
 
-                var employeToUpdatee = await _employeeRepository.GetEmployee(id);
+                var employeToUpdatee = await _employeeRepository.GetEmployee(employee.EmployeeId);
 
                 if(employeToUpdatee is null)
                 {
-                    return NotFound($"Employee with id = {id} not found");
+                    return NotFound($"Employee with id = {employee.EmployeeId} not found");
                 }
 
                 return await _employeeRepository.UpdateEmployee(employee);
