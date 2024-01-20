@@ -21,6 +21,8 @@ namespace EmployeeManagement.Web.Pages
         public EditEmployeeModel EditEmployeeModel { get; set; } = new();
         public List<Department> Departments { get; set; }
 
+        public string PageHeaderText { get; set; }
+
         [Parameter]
         public string Id { get; set; }
 
@@ -30,10 +32,14 @@ namespace EmployeeManagement.Web.Pages
 
             if(employeeId != 0)
             {
+                PageHeaderText = "Edit Employee";
+
                 Employee = await EmployeeService.GetEmployeeById(int.Parse(Id));
             }
             else
             {
+                PageHeaderText = "Create Employee";
+
                 Employee = new Employee
                 {
                     DepartmentId = 1,
@@ -49,17 +55,6 @@ namespace EmployeeManagement.Web.Pages
             Departments = (await DepartmentService.GetDepartments()).ToList();
 
             EmployeeMapper.Map(Employee, EditEmployeeModel);
-
-            //EditEmployeeModel.EmployeeId = Employee.EmployeeId;
-            //EditEmployeeModel.FirstName = Employee.FirstName;
-            //EditEmployeeModel.LastName = Employee.LastName;
-            //EditEmployeeModel.Email = Employee.Email;
-            //EditEmployeeModel.ConfirmEmail = Employee.Email;
-            //EditEmployeeModel.Gender = Employee.Gender;
-            //EditEmployeeModel.PhotoPath = Employee.PhotoPath;
-            //EditEmployeeModel.DateOfBrith = Employee.DateOfBrith;
-            //EditEmployeeModel.DepartmentId = Employee.DepartmentId;
-            //EditEmployeeModel.Department = Employee.Department;
         }
 
         protected async Task HandleValidSubmit()
@@ -81,7 +76,13 @@ namespace EmployeeManagement.Web.Pages
             {
                 NavigationManager.NavigateTo("/");
             }
-            //ghosst
+        }
+
+        protected async Task DeleteEmployee()
+        {
+            await EmployeeService.DeleteEmployee(Employee.EmployeeId);
+
+            NavigationManager.NavigateTo("/");
         }
     }
 }

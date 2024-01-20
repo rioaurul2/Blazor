@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.Web", "E
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.Api", "EmployeeManagement.Api\EmployeeManagement.Api.csproj", "{E556A367-7F52-4029-BDF2-74B5979BEA38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Custom.Components", "Custom.Components\Custom.Components.csproj", "{7836A57F-7323-4FFB-BE76-D342D8626295}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Custom.Components", "Custom.Components\Custom.Components.csproj", "{7836A57F-7323-4FFB-BE76-D342D8626295}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -8,5 +8,6 @@ namespace EmployeeManagement.Web.Services
         public Task<Employee> GetEmployeeById(int id);
         public Task<HttpResponseMessage> UpdateEmployee(Employee employee);
         public Task<HttpResponseMessage> CreateEmployee(Employee employee);
+        public Task<HttpResponseMessage> DeleteEmployee(int id);
     }
 }

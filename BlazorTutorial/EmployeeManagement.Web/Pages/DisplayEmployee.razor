@@ -17,8 +17,11 @@
 
             <a href="@($"employeeEdit/{Employee.EmployeeId}")" class="btn btn-primary m-1">Edit</a>
 
-            <a href="#" class="btn btn-danger m-1">Delete</a>
+            <button type="button" class="btn btn-danger m-1" @onclick="DeleteEmployee">Delete</button>
+            
         </div>
     }
 </div>
+<Confirm ConfirmationChanged="ConfirmDelete_Click" @ref="DeleteConfirmation"
+    ConfirmationMessage="@($"Are you sureyou want to delete \"{Employee.FirstName}\"")"></Confirm>
 
