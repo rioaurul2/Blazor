@@ -1,0 +1,18 @@
+﻿@page "/parentComponent"
+
+
+<CascadingValue Value="@Style">
+    <ChildComponent InputAttributes="attributesFromParent">
+    </ChildComponent>
+</CascadingValue>
+
+@code {
+    public Dictionary<string, object> attributesFromParent { get; set; } =
+        new Dictionary<string, object>()
+                {
+            { "required", "required" },
+            { "placeholder", "Parent Component Placeholder" }
+                };
+
+    public string Style { get; set; } = "color:red";
+}

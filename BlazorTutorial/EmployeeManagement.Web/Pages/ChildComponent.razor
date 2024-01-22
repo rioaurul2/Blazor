@@ -1,0 +1,13 @@
+﻿<input id="firstName" @attributes="InputAttributes" />
+<h1 style="@ElementStyle">-Child Component</h1>
+
+@code {
+    [CascadingParameter]
+    public string ElementStyle { get; set; }
+    [Parameter]
+    public Dictionary<string, object> InputAttributes { get; set; } =
+        new Dictionary<string, object>()
+            {
+            { "placeholder", "Child Component Placeholder" }
+            };
+}
